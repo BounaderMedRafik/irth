@@ -5,7 +5,7 @@ export default function ChatPage() {
     <div className=" relative">
       <img
         src="/bg/bg.jpg"
-        className=" fixed top-0 left-0 w-full h-svh object-cover "
+        className=" fixed top-0 left-0 w-full h-svh object-cover opacity-25 select-none "
         alt=""
       />
       <ChatBox />

@@ -4,6 +4,7 @@ import { marked } from "marked";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { FaRegPaperPlane } from "react-icons/fa";
+import { FaCircleUser } from "react-icons/fa6";
 
 const suggestions: string[] = [
   "Talk to me about Timgad?",
@@ -86,9 +87,9 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
             className="h-full w-full flex-col min-h-[60vh] text-center flex items-center justify-center"
           >
             <div className="max-w-xl p-5 w-full">
-              <div className=" text-4xl">
+              <div className=" text-4xl flex items-center  justify-center">
                 Welcome to{" "}
-                <span className="font-urdu text-accent/75">yesyes</span>
+                <img className="size-14" src="/brand/irth.svg" alt="" />
               </div>
               <div className="md:text-sm text-xs mt-7">
                 <div>
@@ -124,12 +125,19 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
                 }`}
               >
                 <div
-                  className={`inline-block py-2 px-4 rounded-xl  ${
+                  className={`inline-block relative py-2 px-4 rounded-xl  ${
                     msg.role === "user"
                       ? "bg-accent/75 border border-accent/75 shadow-2xl text-foreground "
                       : "bg-foreground text-background border border-foreground/10  "
                   }`}
                 >
+                  {msg.role == "ai" && (
+                    <img
+                      className=" absolute -translate-y-1/2 translate-x-1/2 size-24"
+                      src="/brand/irth-favcon.svg"
+                      alt=""
+                    />
+                  )}
                   <div
                     dangerouslySetInnerHTML={{
                       __html:
@@ -174,7 +182,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSend();
           }}
-          className="border border-foreground/10 shadow-xl rounded-full py-4 px-12 w-full  overflow-hidden focus-visible:outline-none bg-background"
+          className="border border-foreground/10 shadow-xl rounded-full py-4 px-14 w-full  overflow-hidden focus-visible:outline-none bg-background"
         />
         <div
           onClick={handleSend}
@@ -183,7 +191,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
           <FaRegPaperPlane size={18} />
         </div>
         <div className="absolute left-5 top-1/2 -translate-y-1/2">
-          <User size={14} />
+          <FaCircleUser size={24} />
         </div>
       </div>
     </div>
