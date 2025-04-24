@@ -124,20 +124,20 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
                   msg.role === "user" ? "text-right" : "text-left"
                 }`}
               >
+                {msg.role == "ai" && (
+                  <img
+                    className=" size-8 border rounded-sm mb-1"
+                    src="/brand/irth-favcon.svg"
+                    alt=""
+                  />
+                )}
                 <div
                   className={`inline-block relative py-2 px-4 rounded-xl  ${
                     msg.role === "user"
                       ? "bg-accent/75 border border-accent/75 shadow-2xl text-foreground "
-                      : "bg-foreground text-background border border-foreground/10  "
+                      : "bg-foreground text-background border border-foreground/10 rounded-tl-none  "
                   }`}
                 >
-                  {msg.role == "ai" && (
-                    <img
-                      className=" absolute -translate-y-1/2 translate-x-1/2 size-24"
-                      src="/brand/irth-favcon.svg"
-                      alt=""
-                    />
-                  )}
                   <div
                     dangerouslySetInnerHTML={{
                       __html:
