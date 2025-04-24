@@ -1,3 +1,14 @@
+import ChatBox from "@/components/core/chat/ChatBox";
+
 export default function ChatPage() {
-  return <div></div>;
+  return (
+    <div className=" relative">
+      <img
+        src="/bg/bg.jpg"
+        className=" fixed top-0 left-0 w-full h-svh object-cover "
+        alt=""
+      />
+      <ChatBox />
+    </div>
+  );
 }
