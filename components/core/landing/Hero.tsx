@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
   return (
     <div>
-      <div className=" bg-accent bg-secondary"></div>
+      <div className="">bkjbkj</div>
     </div>
   );
 };
