@@ -16,7 +16,7 @@ export const useGenerateAnswer = (): UseGenerateAnswerResult => {
 
     try {
       const response = await fetch(
-        "https://1b1c-2a09-bac5-3066-1a78-00-2a3-1d.ngrok-free.app/generate",
+        "https://79f9-2a09-bac5-3062-1a78-00-2a3-1d.ngrok-free.app/generate",
         {
           method: "POST",
           headers: {
