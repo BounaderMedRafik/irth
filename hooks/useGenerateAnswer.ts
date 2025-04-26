@@ -16,13 +16,13 @@ export const useGenerateAnswer = (): UseGenerateAnswerResult => {
 
     try {
       const response = await fetch(
-        "https://79f9-2a09-bac5-3062-1a78-00-2a3-1d.ngrok-free.app/generate",
+        "https://20c6-2a09-bac5-3060-1a78-00-2a3-d.ngrok-free.app/generate",
         {
-          method: "POST",
+          method: "POST", // <-- must be POST, not OPTIONS
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prompt }),
+          body: JSON.stringify({ prompt }), // Same
         }
       );
 
@@ -31,7 +31,7 @@ export const useGenerateAnswer = (): UseGenerateAnswerResult => {
       }
 
       const data = await response.json();
-      console.log(JSON.stringify(data));
+      console.log("Received data:", data);
       return data.response;
     } catch (err: any) {
       setError(err.message || "Unknown error");

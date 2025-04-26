@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/core/layout/Nav";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +32,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-winky`}
       >
-        <Nav />
-        <div>{children}</div>
+        <TooltipProvider delayDuration={300}>
+          <Nav />
+          <div>{children}</div>
+        </TooltipProvider>
       </body>
     </html>
   );
