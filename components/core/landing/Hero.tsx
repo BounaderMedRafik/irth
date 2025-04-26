@@ -20,9 +20,9 @@ const Hero = () => {
       }}
     >
       {/* Left Section */}
-      <div className="w-full md:w-2/5 h-full flex flex-col justify-start pt-[10vh] gap-8 md:gap-20">
+      <div className="w-full md:w-2/5 h-full flex flex-col justify-start pt-[10vh] gap-8 md:gap-30" style={{zIndex:"2"}}>
         {/* Main Content */}
-        <div className="h-auto flex flex-col items-center gap-4 pl-[10%] pt-4">
+        <div className="h-auto flex flex-col items-center gap-4  pt-4">
           <div className="flex flex-col text-2xl md:text-4xl font-semibold gap-2 items-start">
             <p className={`${inknutAntiqua.variable} font-serif`}>Preserving Heritage</p>
             <p className="text-base md:text-4xl font-semibold">With Intelligence</p>
@@ -70,7 +70,7 @@ const Hero = () => {
       </div>
 
       {/* Right Section */}
-      <div className="w-full md:w-3/5 h-auto relative flex gap-6 items-end">
+      <div  className="w-full md:w-3/5 h-auto relative flex gap-6 items-end" style={{zIndex:"0"}}>
         <p className={`${inknutAntiqua.variable} font-serif absolute md:static left-10% md:mb-10% text-xl md:text-4xl font-semibold leading-tight text-black text-opacity-20`}>
           "Irth helped<br /> 
           us digitize<br /> our<br />
@@ -80,6 +80,7 @@ const Hero = () => {
         </p>
         <img 
           className="absolute md:relative left-35% top-10% md:scale-80"
+          style={{zIndex:"0"}}
           src="landing imgs/Untitled-4 1.png"
           alt="Heritage illustration"
         />
