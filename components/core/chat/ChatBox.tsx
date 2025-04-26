@@ -1,8 +1,10 @@
 "use client";
-import { ArrowRight, Loader, User } from "lucide-react";
-import { marked } from "marked";
-import { AnimatePresence, motion } from "motion/react";
+
 import { useState, useEffect, useRef } from "react";
+import { useGenerateAnswer } from "@/hooks/useGenerateAnswer"; // Make sure this path is correct
+import { AnimatePresence, motion } from "motion/react";
+import { marked } from "marked";
+import { Loader } from "lucide-react";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { FaCircleUser } from "react-icons/fa6";
 
@@ -21,8 +23,9 @@ interface Message {
 const ChatBox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+  const { generateAnswer, loading } = useGenerateAnswer();
 
   const scrollToBottom = () => {
     if (chatEndRef.current) {
@@ -40,25 +43,18 @@ const ChatBox = () => {
 
     setMessages((prev) => [...prev, userMessage]);
     setInputText("");
-    setLoading(true);
     scrollToBottom();
 
-    // Simulate AI response
-    setTimeout(() => {
+    const aiResponse = await generateAnswer(userMessage.content);
+
+    if (aiResponse) {
       const aiMessage: Message = {
         role: "ai",
-        content: `### 🏛️ Welcome to the Lost City of Timgad  
-*Timgad, Algeria's Roman Time Capsule*
-
-Once upon a time, nestled on the northern slopes of the Aurès Mountains in modern-day Algeria, stood a marvel of Roman urban planning — **Timgad** (also known as *Thamugadi*). Founded by the Roman Emperor *Trajan* around **100 AD**, this ancient city is a treasure trove of historical significance and architectural brilliance.
-
-
-        `, // hardcoded response for now
+        content: aiResponse,
       };
       setMessages((prev) => [...prev, aiMessage]);
-      setLoading(false);
       scrollToBottom();
-    }, 1000); // Simulate a delay
+    }
   };
 
   useEffect(() => {
@@ -70,7 +66,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
       <AnimatePresence mode="wait">
         {messages.length < 1 ? (
           <motion.div
-            key={messages.length < 1 ? "coming" : "leaving"}
+            key="empty"
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={{
               opacity: 1,
@@ -87,7 +83,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
             className="h-full w-full flex-col min-h-[60vh] text-center flex items-center justify-center"
           >
             <div className="max-w-xl p-5 w-full">
-              <div className=" text-4xl flex items-center  justify-center">
+              <div className="text-4xl flex items-center justify-center">
                 Welcome to{" "}
                 <img className="size-14" src="/brand/irth.svg" alt="" />
               </div>
@@ -95,9 +91,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
                 <div>
                   {suggestions.map((item, i) => (
                     <div
-                      onClick={() => {
-                        setInputText(item);
-                      }}
+                      onClick={() => setInputText(item)}
                       key={i}
                       className="opacity-75 line-clamp-1 md:line-clamp-none hover:opacity-100 transition-all duration-300 ease-in-out cursor-pointer"
                     >
@@ -110,8 +104,9 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
           </motion.div>
         ) : (
           <div className="flex-1 overflow-y-auto p-4 pt-[40%] pb-44">
-            {messages.map((msg, index: number) => (
+            {messages.map((msg, index) => (
               <motion.div
+                key={index}
                 initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                 animate={{
                   opacity: 1,
@@ -119,23 +114,22 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
                   filter: "blur(0px)",
                   transition: { ease: [0.25, 1, 0.5, 1] },
                 }}
-                key={index}
                 className={`mb-2 ${
                   msg.role === "user" ? "text-right" : "text-left"
                 }`}
               >
-                {msg.role == "ai" && (
+                {msg.role === "ai" && (
                   <img
-                    className=" size-8 border rounded-sm mb-1"
+                    className="size-8 border rounded-sm mb-1"
                     src="/brand/irth-favcon.svg"
                     alt=""
                   />
                 )}
                 <div
-                  className={`inline-block relative py-2 px-4 rounded-xl  ${
+                  className={`inline-block relative py-2 px-4 rounded-xl ${
                     msg.role === "user"
-                      ? "bg-accent/75 border border-accent/75 shadow-2xl text-foreground "
-                      : "bg-foreground text-background border border-foreground/10 rounded-tl-none  "
+                      ? "bg-accent/75 border border-accent/75 shadow-2xl text-foreground"
+                      : "bg-primary/25 text-foreground border border-foreground/10 rounded-tl-none"
                   }`}
                 >
                   <div
@@ -150,7 +144,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
             <AnimatePresence mode="wait">
               {loading && (
                 <motion.div
-                  key={loading ? "coming" : "leaving"}
+                  key="loading"
                   initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                   animate={{
                     opacity: 1,
@@ -173,6 +167,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
           </div>
         )}
       </AnimatePresence>
+
       <div className="fixed bottom-14 left-1/2 -translate-x-1/2 max-w-xl p-0 w-full">
         <input
           placeholder="Think With Me..."
@@ -182,7 +177,7 @@ Once upon a time, nestled on the northern slopes of the Aurès Mountains in mode
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSend();
           }}
-          className="border border-foreground/10 shadow-xl rounded-full py-4 px-14 w-full  overflow-hidden focus-visible:outline-none bg-background"
+          className="border border-foreground/10 shadow-xl rounded-full py-4 px-14 w-full overflow-hidden focus-visible:outline-none bg-background"
         />
         <div
           onClick={handleSend}

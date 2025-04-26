@@ -7,7 +7,9 @@ const Nav = () => {
     <div className=" w-full fixed top-0 left-0 z-50 ">
       <div className=" wrapper flex items-center justify-between py-1.5 px-2 bg-background/50 backdrop-blur-xl rounded-b-xl border-x border-b border-foreground/5">
         <div>
-          <img className=" size-12" src="/brand/irth_logo_no_pj.png" alt="" />
+          <Link href={"/"}>
+            <img className=" size-12" src="/brand/irth_logo_no_pj.png" alt="" />
+          </Link>
         </div>
 
         <div className="flex items-center  divide-x ">
